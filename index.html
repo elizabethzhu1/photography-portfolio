@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elizabeth Zhu Photography</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .masonry {
+            column-count: 1;
+            column-gap: 1.5rem;
+            padding-top: 1px;
+            display: flow-root;
+        }
+        @media (min-width: 640px) {
+            .masonry { column-count: 2; }
+        }
+        @media (min-width: 1024px) {
+            .masonry { column-count: 3; }
+        }
+        .masonry img {
+            width: 100%;
+            height: auto;
+            border-radius: 0;
+            margin-bottom: 1.5rem;
+            display: block;
+            background: #f3f3f3;
+        }
+        .photo-anim-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            min-height: 600px;
+            overflow: visible;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .photo-anim-container.loaded {
+            opacity: 1;
+        }
+        .photo-anim-img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 420px;
+            max-width: 80vw;
+            height: auto;
+            transform: translate(-50%, -50%) scale(1);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            transition: transform 0.6s cubic-bezier(.4,2,.6,1), left 0.6s cubic-bezier(.4,2,.6,1), top 0.6s cubic-bezier(.4,2,.6,1), opacity 0.6s cubic-bezier(.4,2,.6,1);
+            opacity: 0;
+            z-index: 2;
+        }
+        .photo-anim-img.loaded {
+            opacity: 1;
+        }
+        .photo-anim-img.fanned {
+            /* Will be set by JS for each image */
+        }
+        .photo-anim-img.grid {
+            /* Will be set by JS for each image */
+            transition: all 1s cubic-bezier(.4,2,.6,1);
+        }
+        @media (max-width: 600px) {
+            .photo-anim-img { width: 90vw; }
+        }
+        .loading-placeholder {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            background: #f3f3f3;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-white font-sans min-h-screen" style="overflow:hidden;">
+    <!-- Loading Placeholder -->
+    <div id="loading-placeholder" class="loading-placeholder"></div>
+    
+    <!-- Modal HTML -->
+    <div id="photo-modal" style="display:none; position:fixed; z-index:50; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); align-items:center; justify-content:center;">
+        <span id="modal-close" style="position:absolute; top:32px; right:48px; color:white; font-size:2.5rem; cursor:pointer; z-index:51;">&times;</span>
+        <img id="modal-img" src="" alt="modal photo" style="max-width:90vw; max-height:90vh; box-shadow:0 4px 32px rgba(0,0,0,0.5);" />
+    </div>
+    <!-- Header -->
+    <header class="px-4 sm:px-8 pt-6 sm:pt-8 mt-4 ml-5">
+        <h1 class="text-3xl sm:text-5xl md:text-2xl lg:text-3xl xl:text-5xl font-extrabold tracking-tight text-black">ELIZABETH ZHU</h1>
+        <nav class="mt-3 flex flex-wrap gap-2 sm:gap-3 md:gap-4 text-gray-500 text-base sm:text-md md:text-lg lg:text-xl lowercase overflow-x-auto">
+            <a href="about.html" class="hover:text-black whitespace-nowrap">about</a>
+            <!-- <a href="contact.html" class="hover:text-black whitespace-nowrap">contact</a> -->
+            <a href="index.html" class="text-black font-semibold border-b-2 border-black whitespace-nowrap" onclick="localStorage.removeItem('hasSeenAnimation'); window.location.reload(); return false;">photography</a>
+            <a href="sf.html" class="hover:text-black whitespace-nowrap">san francisco</a>
+            <a href="trees.html" class="hover:text-black whitespace-nowrap">trees</a>
+            <a href="animals.html" class="hover:text-black whitespace-nowrap">animals</a>
+        </nav>
+    </header>
+    <!-- Animated Photo Stack -->
+    <div id="photo-anim" class="photo-anim-container"></div>
+    <!-- Hide the main grid until animation is done -->
+    <div id="main-gallery" style="opacity:0; pointer-events:none; transition:opacity 0.8s;">
+        <main class="px-2 sm:px-8 pb-12 py-2 mt-5 sm:mt-5 ml-5 mr-5">
+            <div class="flex flex-col sm:flex-row -mx-1 sm:-mx-2">
+                <div class="w-full sm:w-1/3 px-1 sm:px-2">
+                    <img src="photos/sf.JPG" alt="photo 28" class="w-full mb-4" />
+                    <img src="photos/yosemitetrees.jpg" alt="photo 14" class="w-full mb-4" />
+                    <img src="photos/cntower.JPG" alt="photo 29" class="w-full mb-4" />
+                    <img src="photos/whaletree.JPG" alt="photo 33" class="w-full mb-4" />
+                    <img src="photos/reyes.jpg" alt="photo 36" class="w-full mb-4" />
+                    <img src="photos/morebirds.JPG" alt="photo 39" class="w-full mb-4" />
+                    <img src="photos/sfbuilding.JPG" alt="photo 5" class="w-full mb-4" />
+                    <img src="photos/sftree.JPG" alt="photo 6" class="w-full mb-4" />
+                    <img src="photos/sfshore.JPG" alt="photo 7" class="w-full mb-4" />
+                    <img src="photos/bench.JPG" alt="photo 9" class="w-full mb-4" />
+                    <img src="photos/lightonbuildings.JPG" alt="photo 1" class="w-full mb-4" />
+                    <img src="photos/nyclibrary.JPG" alt="photo 2" class="w-full mb-4" />
+                    <img src="photos/sfwoman.jpg" alt="photo 38" class="w-full mb-4" />
+                    <img src="photos/reyes.JPG" alt="photo 39" class="w-full mb-4" />
+                </div>
+                <div class="w-full sm:w-1/3 px-1 sm:px-2">
+                    <img src="photos/redcar.JPG" alt="photo 30" class="w-full mb-4" />
+                    <img src="photos/dog.jpg" alt="photo 40" class="w-full mb-4" />
+                    <img src="photos/steps.JPG" alt="photo 16" class="w-full mb-4" />
+                    <img src="photos/sfhouse.JPG" alt="photo 32" class="w-full mb-4" />
+                    <img src="photos/sfview.JPG" alt="photo 24" class="w-full mb-4" />
+                    <img src="photos/birds.JPG" alt="photo 25" class="w-full mb-4" />
+                    <img src="photos/water.JPG" alt="photo 31" class="w-full mb-4" />
+                    <img src="photos/beach.JPG" alt="photo 37" class="w-full mb-4" />
+                    <img src="photos/skater.JPG" alt="photo 20" class="w-full mb-4" />
+                    <img src="photos/nyctower.JPG" alt="photo 19" class="w-full mb-4" />
+                    <img src="photos/goldengate.JPG" alt="photo 23" class="w-full mb-4" />
+                    <img src="photos/benchsf.JPG" alt="photo 34" class="w-full mb-4" />
+                    <img src="photos/treebuilding.JPG" alt="photo 10" class="w-full mb-4" />
+                    <img src="photos/nycstreet.jpg" alt="photo 38" class="w-full mb-4" />
+                </div>
+                <div class="w-full sm:w-1/3 px-1 sm:px-2">
+                    <img src="photos/tree.JPG" alt="photo 26" class="w-full mb-4" />
+                    <img src="photos/building.jpg" alt="photo 12" class="w-full mb-4" />
+                    <img src="photos/goats.jpg" alt="photo 10" class="w-full mb-4" />
+                    <img src="photos/nyc.JPG" alt="photo 15" class="w-full mb-4" />
+                    <img src="photos/light.JPG" alt="photo 21" class="w-full mb-4" />
+                    <img src="photos/cypress.jpg" alt="photo 27" class="w-full mb-4" />
+                    <img src="photos/sfcrispbuilding.JPG" alt="photo 22" class="w-full mb-4" />
+                    <img src="photos/yosemite.JPG" alt="photo 38" class="w-full mb-4" />
+                    <img src="photos/leaves.JPG" alt="photo 3" class="w-full mb-4" />
+                    <img src="photos/ibipuera.JPG" alt="photo 11" class="w-full mb-4" />
+                    <img src="photos/swan.jpg" alt="photo 18" class="w-full mb-4" />
+                    <img src="photos/monkey.jpg" alt="photo 8" class="w-full mb-4" />
+                    <img src="photos/halfdome.jpg" alt="photo 13" class="w-full mb-4" />
+                    <img src="photos/sfstreetview.jpg" alt="photo 38" class="w-full mb-4" />
+                </div>
+            </div>
+        </main>
+    </div>
+    </main>
+<script>
+// Modal functionality
+const modal = document.getElementById('photo-modal');
+const modalImg = document.getElementById('modal-img');
+const closeBtn = document.getElementById('modal-close');
+
+// Attach click event to all gallery images
+const galleryImages = document.querySelectorAll('.flex img');
+galleryImages.forEach(img => {
+  img.style.cursor = 'pointer';
+  img.addEventListener('click', function() {
+    modal.style.display = 'flex';
+    modalImg.src = this.src;
+    modalImg.alt = this.alt;
+  });
+});
+
+// Close modal on close button
+closeBtn.addEventListener('click', function() {
+  modal.style.display = 'none';
+  modalImg.src = '';
+});
+// Close modal when clicking outside the image
+modal.addEventListener('click', function(e) {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+    modalImg.src = '';
+  }
+});
+// Optional: Close modal on Escape key
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    modal.style.display = 'none';
+    modalImg.src = '';
+  }
+});
+
+// --- Animated Photo Stack ---
+const photoList = [
+    'sf.JPG', 'redcar.JPG', 'dog.jpg', 'tree.JPG', 'yosemitetrees.JPG',
+    'nycstreet.JPG', 'sfwoman.JPG', 'sfstreetview.JPG', 'goats.JPG',
+    'lightonbuildings.JPG', 'nyclibrary.JPG', 'nyctower.JPG', 'leaves.JPG', 'skater.JPG',
+    'light.JPG', 'palacefinearts.JPG', 'treebuilding.JPG', 'sfcrispbuilding.JPG',
+    'sfbuilding.JPG', 'sftree.JPG', 'goldengate.JPG', 'sfshore.JPG', 'monkey.jpg',
+    'coffeebeans.JPG', 'sfview.JPG', 'birds.JPG', 'benchsf.JPG', 'reyes.jpg', 'tree.JPG',
+    'ibipuera.JPG', 'swan.jpg', 'building.jpg', 'halfdome.jpg', 'beach.JPG', 'yosemite.JPG',
+    'cypress.jpg', 'sf.JPG', 'nyc.JPG', 'cntower.JPG', 'water.JPG',
+    'morebirds.JPG', 'steps.JPG', 'sfhouse.JPG', 'whaletree.JPG'
+];
+
+const animContainer = document.getElementById('photo-anim');
+const mainGallery = document.getElementById('main-gallery');
+const loadingPlaceholder = document.getElementById('loading-placeholder');
+const gridCols = 3;
+const gridRows = Math.ceil(photoList.length / gridCols);
+const gridGap = 24;
+const imgW = 420, imgH = 420;
+const centerX = window.innerWidth/2, centerY = window.innerHeight/2 - 80;
+const fanCount = 7;
+
+// Neat stacked pile for 7 images (centered, each with a small rotation, all scale 0.9)
+const scatterStates = [
+    { x: centerX, y: centerY, rot: -10, scale: 0.9 },
+    { x: centerX, y: centerY, rot: -5,  scale: 0.9 },
+    { x: centerX, y: centerY, rot: 0,   scale: 0.9 },
+    { x: centerX, y: centerY, rot: 5,   scale: 0.9 },
+    { x: centerX, y: centerY, rot: 10,  scale: 0.9 },
+    { x: centerX, y: centerY, rot: 15,  scale: 0.9 },
+    { x: centerX, y: centerY, rot: -15, scale: 0.9 }
+];
+
+// Create and load images
+let loadedImages = 0;
+const totalImages = photoList.length;
+let imgs = []; // Define imgs array at the top level
+
+function onImageLoad() {
+    loadedImages++;
+    if (loadedImages === totalImages) {
+        // All images are loaded, show the container
+        animContainer.classList.add('loaded');
+        loadingPlaceholder.style.display = 'none';
+        
+        // Initialize the rest of the animation
+        imgs = Array.from(animContainer.querySelectorAll('img')); // Update the imgs array
+        
+        // Check if user has seen the animation before
+        const hasSeenAnimation = localStorage.getItem('hasSeenAnimation');
+        
+        if (hasSeenAnimation) {
+            // Skip animation and show grid immediately
+            animContainer.style.display = 'none';
+            mainGallery.style.opacity = 1;
+            mainGallery.style.pointerEvents = 'auto';
+            document.body.style.overflow = 'auto';
+        } else {
+            // Set initial stacked positions for first-time visitors
+            imgs.forEach((img, i) => {
+                img.classList.add('loaded');
+                if (i < fanCount) {
+                    // Stack the first fanCount images
+                    const scatter = scatterStates[i];
+                    img.style.left = `${scatter.x}px`;
+                    img.style.top = `${scatter.y}px`;
+                    img.style.transform = `translate(-50%, -50%) scale(${scatter.scale}) rotate(${scatter.rot}deg)`;
+                    img.style.opacity = 1;
+                } else {
+                    // Hide the rest
+                    img.style.opacity = 0;
+                }
+            });
+
+            // Start the fan animation
+            animateFan();
+            
+            // Mark that user has seen the animation
+            localStorage.setItem('hasSeenAnimation', 'true');
+        }
+    }
+}
+
+// Create and append images
+photoList.forEach((src, i) => {
+    const img = document.createElement('img');
+    img.src = `photos/${src}`;
+    img.alt = `photo ${i+1}`;
+    img.className = 'photo-anim-img';
+    img.style.zIndex = 40 - i;
+    img.onload = onImageLoad;
+    animContainer.appendChild(img);
+});
+
+// 2. On scroll, animate only the first 6 to their grid positions
+window.addEventListener('scroll', () => {
+    if (!imgs.length) return; // Guard against undefined imgs array
+    
+    const scrollY = window.scrollY;
+    const fanStart = 0, fanEnd = 350, gridStart = 351, gridEnd = 700;
+    
+    imgs.forEach((img, i) => {
+        if (i < fanCount) {
+            const col = i % gridCols;
+            const row = Math.floor(i / gridCols);
+            const gridX = (window.innerWidth - (imgW*gridCols + gridGap*(gridCols-1)))/2 + col*(imgW+gridGap);
+            const gridY = 100 + row*(imgH+gridGap);
+            
+            if (scrollY < fanEnd) {
+                // Fan out (spread apart, not yet grid) - minimal Y offset
+                const angle = (col - 1) * 18 + (row - 0.5) * 8;
+                const spread = Math.min(scrollY / fanEnd, 1) * 120 + row * 10;
+                // Y stays close to gridY, just a small offset for fan
+                const fanY = gridY + imgH/2 + Math.cos(angle/18)*spread*0.08; // very small vertical offset
+                const fanX = centerX + Math.sin(angle/18)*spread;
+                img.style.opacity = 1;
+                img.style.left = `${fanX}px`;
+                img.style.top = `${fanY}px`;
+                img.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+            } else if (scrollY < gridEnd) {
+                // Directly interpolate to grid
+                const t = Math.min((scrollY - fanEnd) / (gridEnd - fanEnd), 1);
+                const angle = (col - 1) * 18 + (row - 0.5) * 8;
+                const spread = 120 + row * 10;
+                const fanY = gridY + imgH/2 + Math.cos(angle/18)*spread*0.08;
+                const fanX = centerX + Math.sin(angle/18)*spread;
+                const gridImgX = gridX + imgW/2;
+                const gridImgY = gridY + imgH/2;
+                const interpX = fanX + (gridImgX - fanX) * t;
+                const interpY = fanY + (gridImgY - fanY) * t;
+                img.style.left = `${interpX}px`;
+                img.style.top = `${interpY}px`;
+                img.style.transform = `translate(-50%, -50%) scale(${1-t*0.1}) rotate(${(1-t)*angle})`;
+                img.style.opacity = 1;
+            } else {
+                img.style.opacity = 1;
+                img.style.left = `${gridX + imgW/2}px`;
+                img.style.top = `${gridY + imgH/2}px`;
+                img.style.transform = `translate(-50%, -50%) scale(0.9) rotate(0deg)`;
+            }
+        } else {
+            // Hide all other images until grid phase
+            if (scrollY >= gridEnd) {
+                img.style.transition = 'opacity 0.8s cubic-bezier(.4,2,.6,1)';
+                img.style.opacity = 1;
+            } else {
+                img.style.opacity = 0;
+            }
+        }
+    });
+
+    if (scrollY > gridEnd) {
+        animContainer.style.display = 'none';
+        mainGallery.style.opacity = 1;
+        mainGallery.style.pointerEvents = 'auto';
+    }
+});
+
+// On resize, update center positions
+window.addEventListener('resize', () => {
+  const centerX = window.innerWidth/2, centerY = window.innerHeight/2 - 80;
+  imgs.forEach((img, i) => {
+    if (i < fanCount) {
+      const scatter = scatterStates[i];
+      img.style.left = `${centerX}px`;
+      img.style.top = `${centerY}px`;
+    }
+  });
+});
+
+// --- Fan Animation with Scroll Lock ---
+const fanEnd = 1; // fanProgress goes from 0 to 1
+let fanProgress = 0;
+let fanDone = false;
+
+function animateFan() {
+  imgs.forEach((img, i) => {
+    if (i < fanCount) {
+      const col = i % gridCols;
+      const row = Math.floor(i / gridCols);
+      const gridX = (window.innerWidth - (imgW*gridCols + gridGap*(gridCols-1)))/2 + col*(imgW+gridGap);
+      const gridY = 100 + row*(imgH+gridGap);
+      // Interpolate from scatter to grid
+      const t = fanProgress;
+      const scatter = scatterStates[i];
+      const interpX = scatter.x + (gridX + imgW/2 - scatter.x) * t;
+      const interpY = scatter.y + (gridY + imgH/2 - scatter.y) * t;
+      const interpRot = scatter.rot * (1-t);
+      const interpScale = scatter.scale + (0.9 - scatter.scale) * t;
+      img.style.opacity = 1;
+      img.style.left = `${interpX}px`;
+      img.style.top = `${interpY}px`;
+      img.style.transform = `translate(-50%, -50%) scale(${interpScale}) rotate(${interpRot}deg)`;
+    } else {
+      img.style.opacity = fanDone ? 1 : 0;
+    }
+  });
+}
+
+function finishFan() {
+  fanDone = true;
+  document.body.style.overflow = 'auto';
+  animContainer.style.display = 'none';
+  mainGallery.style.opacity = 1;
+  mainGallery.style.pointerEvents = 'auto';
+  // Mark that user has seen the animation
+  localStorage.setItem('hasSeenAnimation', 'true');
+}
+
+function onFanInput(delta) {
+  if (fanDone) return;
+  fanProgress = Math.max(0, Math.min(1, fanProgress + delta));
+  animateFan();
+  if (fanProgress >= 1) {
+    finishFan();
+  }
+}
+
+// Listen for wheel/touch events
+window.addEventListener('wheel', e => {
+  if (!fanDone) {
+    e.preventDefault();
+    onFanInput(e.deltaY * 0.001);
+  }
+}, { passive: false });
+
+let lastY = null;
+window.addEventListener('touchstart', e => { if (!fanDone) lastY = e.touches[0].clientY; });
+window.addEventListener('touchmove', e => {
+  if (!fanDone && lastY !== null) {
+    e.preventDefault();
+    const newY = e.touches[0].clientY;
+    onFanInput((lastY - newY) * 0.005);
+    lastY = newY;
+  }
+}, { passive: false });
+window.addEventListener('touchend', () => { lastY = null; });
+
+// Initial fan state
+animateFan();
+</script>
+</body>
+</html> 
