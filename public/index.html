@@ -280,11 +280,15 @@ function onImageLoad() {
 // Create and append images
 photoList.forEach((src, i) => {
     const img = document.createElement('img');
-    img.src = `photos/${src.replace('.jpg', '.JPG')}`;
+    img.src = `photos/${src}`;
     img.alt = `photo ${i+1}`;
     img.className = 'photo-anim-img';
     img.style.zIndex = 40 - i;
     img.onload = onImageLoad;
+    img.onerror = function() {
+        console.error('Failed to load image:', img.src);
+        onImageLoad();
+    };
     animContainer.appendChild(img);
 });
 
