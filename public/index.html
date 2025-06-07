@@ -196,15 +196,15 @@ window.addEventListener('keydown', function(e) {
 
 // --- Animated Photo Stack ---
 const photoList = [
-    'photos/sf.JPG', 'photos/redcar.JPG', 'photos/dog.jpg', 'photos/tree.JPG', 'photos/yosemitetrees.JPG',
-    'photos/nycstreet.JPG', 'photos/sfwoman.JPG', 'photos/sfstreetview.JPG', 'photos/goats.JPG',
-    'photos/lightonbuildings.JPG', 'photos/nyclibrary.JPG', 'photos/nyctower.JPG', 'photos/leaves.JPG', 'photos/skater.JPG',
-    'photos/light.JPG', 'photos/palacefinearts.JPG', 'photos/treebuilding.JPG', 'photos/sfcrispbuilding.JPG',
-    'photos/sfbuilding.JPG', 'photos/sftree.JPG', 'photos/goldengate.JPG', 'photos/sfshore.JPG', 'photos/monkey.jpg',
-    'photos/coffeebeans.JPG', 'photos/sfview.JPG', 'photos/birds.JPG', 'photos/benchsf.JPG', 'photos/reyes.jpg', 'photos/tree.JPG',
-    'photos/ibipuera.JPG', 'photos/swan.jpg', 'photos/building.jpg', 'photos/halfdome.jpg', 'photos/beach.JPG', 'photos/yosemite.JPG',
-    'photos/cypress.jpg', 'photos/sf.JPG', 'photos/nyc.JPG', 'photos/cntower.JPG', 'photos/water.JPG',
-    'photos/morebirds.JPG', 'photos/steps.JPG', 'photos/sfhouse.JPG', 'photos/whaletree.JPG'
+    'sf.JPG', 'redcar.JPG', 'dog.JPG', 'tree.JPG', 'yosemitetrees.JPG',
+    'nycstreet.JPG', 'sfwoman.JPG', 'sfstreetview.JPG', 'goats.JPG',
+    'lightonbuildings.JPG', 'nyclibrary.JPG', 'nyctower.JPG', 'leaves.JPG', 'skater.JPG',
+    'light.JPG', 'palacefinearts.JPG', 'treebuilding.JPG', 'sfcrispbuilding.JPG',
+    'sfbuilding.JPG', 'sftree.JPG', 'goldengate.JPG', 'sfshore.JPG', 'monkey.JPG',
+    'coffeebeans.JPG', 'sfview.JPG', 'birds.JPG', 'benchsf.JPG', 'reyes.JPG', 'tree.JPG',
+    'ibipuera.JPG', 'swan.JPG', 'building.JPG', 'halfdome.JPG', 'beach.JPG', 'yosemite.JPG',
+    'cypress.JPG', 'sf.JPG', 'nyc.JPG', 'cntower.JPG', 'water.JPG',
+    'morebirds.JPG', 'steps.JPG', 'sfhouse.JPG', 'whaletree.JPG'
 ];
 
 const animContainer = document.getElementById('photo-anim');
@@ -281,7 +281,7 @@ function onImageLoad() {
 // Create and append images
 photoList.forEach((src, i) => {
     const img = document.createElement('img');
-    img.src = `photos/${src}`;
+    img.src = `photos/${src.replace('.jpg', '.JPG')}`;
     img.alt = `photo ${i+1}`;
     img.className = 'photo-anim-img';
     img.style.zIndex = 40 - i;
