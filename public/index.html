@@ -27,6 +27,7 @@
             background: #f3f3f3;
             opacity: 0;
             transition: opacity 1s cubic-bezier(.4,2,.6,1);
+            loading: lazy;
         }
         .masonry img.fade-in {
             opacity: 1;
@@ -172,8 +173,9 @@ const photoList = [
 const masonry = document.querySelector('.masonry');
 photoList.forEach((src, i) => {
     const img = document.createElement('img');
-    img.src = `photos/${src}`;
+    img.src = `photos/optimized/${src}`;
     img.alt = `photo ${i+1}`;
+    img.loading = 'lazy';
     masonry.appendChild(img);
 });
 // Fade in images as they enter the viewport
