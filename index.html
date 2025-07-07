@@ -8,13 +8,17 @@
     <style>
         .masonry {
             display: flex;
-            flex-wrap: wrap;
             gap: 1.5rem;
             padding: 0;
         }
+        .masonry-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
         .masonry img {
-            flex: 1 1 calc(100% - 1.5rem);
-            min-width: 0;
+            width: 100%;
             height: auto;
             border-radius: 0;
             display: block;
@@ -23,14 +27,9 @@
             transition: opacity 1s cubic-bezier(.4,2,.6,1);
             loading: lazy;
         }
-        @media (min-width: 640px) {
-            .masonry img {
-                flex: 1 1 calc(50% - 0.75rem);
-            }
-        }
-        @media (min-width: 1024px) {
-            .masonry img {
-                flex: 1 1 calc(33.333% - 1rem);
+        @media (max-width: 639px) {
+            .masonry {
+                flex-direction: column;
             }
         }
         .masonry img.fade-in {
@@ -113,7 +112,15 @@
     <div id="main-gallery" style="opacity:1; pointer-events:auto; transition:opacity 0.8s;">
         <main class="px-2 sm:px-8 pb-12 py-2 ml-5 mr-5 mt-6">
             <div class="masonry">
-                <!-- Images will be injected here by JS -->
+                <div class="masonry-column" id="column1">
+                    <!-- Column 1 images -->
+                </div>
+                <div class="masonry-column" id="column2">
+                    <!-- Column 2 images -->
+                </div>
+                <div class="masonry-column" id="column3">
+                    <!-- Column 3 images -->
+                </div>
             </div>
         </main>
     </div>
@@ -144,7 +151,11 @@ const photoList = [
 ];
 
 // Create and add images to the gallery
-const masonry = document.querySelector('.masonry');
+const column1 = document.getElementById('column1');
+const column2 = document.getElementById('column2');
+const column3 = document.getElementById('column3');
+const columns = [column1, column2, column3];
+
 photoList.forEach((src, i) => {
     const img = document.createElement('img');
     img.src = `public/photos/optimized/${src}`;
@@ -159,7 +170,9 @@ photoList.forEach((src, i) => {
         modalImg.alt = this.alt;
     });
     
-    masonry.appendChild(img);
+    // Distribute images evenly across 3 columns
+    const columnIndex = i % 3;
+    columns[columnIndex].appendChild(img);
 });
 
 // Fade in images as they enter the viewport
@@ -172,7 +185,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.masonry img').forEach(img => {
+document.querySelectorAll('.masonry-column img').forEach(img => {
     observer.observe(img);
 });
 
