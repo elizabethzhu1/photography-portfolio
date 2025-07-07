@@ -8,16 +8,16 @@
   ],
   "routes": [
     {
+      "src": "/photos/optimized/(.*)",
+      "dest": "/photos/optimized/$1"
+    },
+    {
       "src": "/photos/(.*)",
-      "dest": "/public/photos/$1"
+      "dest": "/photos/$1"
     },
     {
       "src": "/(.*)",
       "dest": "/$1"
-    },
-    {
-      "src": "/photos/optimized/(.*)",
-      "dest": "/public/photos/optimized/$1"
     }
   ]
-} 
+}
