@@ -14,6 +14,10 @@
     {
       "src": "/(.*)",
       "dest": "/$1"
+    },
+    {
+      "src": "/photos/optimized/(.*)",
+      "dest": "/public/photos/optimized/$1"
     }
   ]
 } 
