@@ -126,48 +126,6 @@
     </div>
     </main>
 <script>
-import sf from 'public/sf.jpg'
-import redcar from 'public/redcar.jpg'
-import dog from 'public/dog.jpg'
-import tree from 'public/tree.jpg'
-import yosemitetrees from 'public/yosemitetrees.jpg'
-import nycstreet from 'public/nycstreet.jpg'
-import sfwoman from 'public/sfwoman.jpg'
-import sfstreetview from 'public/sfstreetview.jpg'
-import goats from 'public/goats.jpg'
-import lightonbuildings from 'public/lightonbuildings.jpg'
-import nyclibrary from 'public/nyclibrary.jpg'
-import nyctower from 'public/nyctower.jpg'
-import leaves from 'public/leaves.jpg'
-import skater from 'public/skater.jpg'
-import light from 'public/light.jpg'
-import palacefinearts from 'public/palacefinearts.jpg'
-import treebuilding from 'public/treebuilding.jpg'
-import sfcrispbuilding from 'public/sfcrispbuilding.jpg'
-import sfbuilding from 'public/sfbuilding.jpg'
-import sftree from 'public/sftree.jpg'
-import goldengate from 'public/goldengate.jpg'
-import sfshore from 'public/sfshore.jpg'
-import monkey from 'public/monkey.jpg'
-import coffeebeans from 'public/coffeebeans.jpg'
-import sfview from 'public/sfview.jpg'
-import birds from 'public/birds.jpg'
-import benchsf from 'public/benchsf.jpg'
-import reyes from 'public/reyes.jpg'
-import ibipuera from 'public/ibipuera.jpg'
-import swans from 'public/swans.jpg'
-import building from 'public/building.jpg'
-import halfdome from 'public/halfdome.jpg'
-import beach from 'public/beach.jpg'
-import yosemite from 'public/yosemite.jpg'
-import cypress from 'public/cypress.jpg'
-import nyc from 'public/nyc.jpg'
-import cntower from 'public/cntower.jpg'
-import water from 'public/water.jpg'
-import morebirds from 'public/morebirds.jpg'
-import steps from 'public/steps.jpg'
-import sfhouse from 'public/sfhouse.jpg'
-import whaletree from 'public/whaletree.jpg'
 
 // Modal functionality
 const modal = document.getElementById('photo-modal');
@@ -180,16 +138,16 @@ function resetAndReload() {
     window.location.reload();
 }
 
-// Photo list based on imports
+// Photo list
 const photoList = [
-    yosemitetrees, nycstreet, sfwoman, sfstreetview, goats,
-    lightonbuildings, nyclibrary, nyctower, leaves, skater,
-    light, palacefinearts, treebuilding, sfcrispbuilding,
-    sfbuilding, sftree, goldengate, sfshore, monkey,
-    coffeebeans, sfview, birds, benchsf, reyes,
-    ibipuera, swans, building, halfdome, beach, yosemite,
-    cypress, nyc, cntower, water, morebirds,
-    steps, sfhouse, whaletree
+    'yosemitetrees.jpg', 'nycstreet.jpg', 'sfwoman.jpg', 'sfstreetview.jpg', 'goats.jpg',
+    'lightonbuildings.jpg', 'nyclibrary.jpg', 'nyctower.jpg', 'leaves.jpg', 'skater.jpg',
+    'light.jpg', 'palacefinearts.jpg', 'treebuilding.jpg', 'sfcrispbuilding.jpg',
+    'sfbuilding.jpg', 'sftree.jpg', 'goldengate.jpg', 'sfshore.jpg', 'monkey.jpg',
+    'coffeebeans.jpg', 'sfview.jpg', 'birds.jpg', 'benchsf.jpg', 'reyes.jpg',
+    'ibipuera.jpg', 'swans.jpg', 'building.jpg', 'halfdome.jpg', 'beach.jpg', 'yosemite.jpg',
+    'cypress.jpg', 'nyc.jpg', 'cntower.jpg', 'water.jpg', 'morebirds.jpg',
+    'steps.jpg', 'sfhouse.jpg', 'whaletree.jpg'
 ];
 
 // Create and add images to the gallery
@@ -200,7 +158,7 @@ const columns = [column1, column2, column3];
 
 photoList.forEach((src, i) => {
     const img = document.createElement('img');
-    img.src = `${src}`;
+    img.src = `/${src}`;
     img.alt = `photo ${i+1}`;
     img.loading = 'lazy';
     img.style.cursor = 'pointer';
