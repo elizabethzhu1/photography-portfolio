@@ -107,20 +107,13 @@
             <a href="/animals.html" class="hover:text-black whitespace-nowrap">animals</a>
         </nav>
     </header>
-    <!-- Animated Photo Stack -->
     <!-- Main Gallery Grid -->
     <div id="main-gallery" style="opacity:1; pointer-events:auto; transition:opacity 0.8s;">
         <main class="px-2 sm:px-8 pb-12 py-2 ml-5 mr-5 mt-6">
             <div class="masonry">
-                <div class="masonry-column" id="column1">
-                    <!-- Column 1 images -->
-                </div>
-                <div class="masonry-column" id="column2">
-                    <!-- Column 2 images -->
-                </div>
-                <div class="masonry-column" id="column3">
-                    <!-- Column 3 images -->
-                </div>
+                <div class="masonry-column" id="column1"></div>
+                <div class="masonry-column" id="column2"></div>
+                <div class="masonry-column" id="column3"></div>
             </div>
         </main>
     </div>
@@ -140,14 +133,14 @@ function resetAndReload() {
 
 // Photo list
 const photoList = [
-    'yosemitetrees.jpg', 'nycstreet.jpg', 'sfwoman.jpg', 'sfstreetview.jpg', 'goats.jpg',
-    'lightonbuildings.jpg', 'nyclibrary.jpg', 'nyctower.jpg', 'leaves.jpg', 'skater.jpg',
-    'light.jpg', 'palacefinearts.jpg', 'treebuilding.jpg', 'sfcrispbuilding.jpg',
+    'yosemitetrees.jpg', 'redcar.jpg', 'steps.jpg', 'nyc.jpg', 'sf.jpg', 'reyes.jpg', 'sfstreetview.jpg', 'sfwoman.jpg', 'goats.jpg', 'building.jpg',
+    'lightonbuildings.jpg', 'nyclibrary.jpg', 'tree.jpg', 'light.jpg', 'skater.jpg', 'nyctower.jpg', 'morebirds.jpg',
+     'palacefinearts.jpg', 'treebuilding.jpg', 'sfcrispbuilding.jpg',
     'sfbuilding.jpg', 'sftree.jpg', 'goldengate.jpg', 'sfshore.jpg', 'monkey.jpg',
-    'coffeebeans.jpg', 'sfview.jpg', 'birds.jpg', 'benchsf.jpg', 'reyes.jpg',
-    'ibipuera.jpg', 'swans.jpg', 'building.jpg', 'halfdome.jpg', 'beach.jpg', 'yosemite.jpg',
-    'cypress.jpg', 'nyc.jpg', 'cntower.jpg', 'water.jpg', 'morebirds.jpg',
-    'steps.jpg', 'sfhouse.jpg', 'whaletree.jpg'
+    'coffeebeans.jpg', 'sfview.jpg', 'birds.jpg', 'benchsf.jpg',
+    'ibipuera.jpg', 'swans.jpg', 'halfdome.jpg', 'beach.jpg', 'yosemite.jpg',
+    'cypress.jpg', 'cntower.jpg', 'water.jpg', 'leaves.jpg',
+ 'sfhouse.jpg', 'whaletree.jpg', 'halfdome.jpg', 'nycstreet.jpg',
 ];
 
 // Create and add images to the gallery
