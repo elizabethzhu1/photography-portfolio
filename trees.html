@@ -87,10 +87,20 @@
         });
 
         document.querySelectorAll('.collage-outer img').forEach(img => {
-            img.classList.add('fade-in');
-            img.addEventListener('load', () => {
-                img.classList.add('loaded');
+            // Add fade-in class when image loads
+            img.addEventListener('load', function() {
+                // Small delay to ensure smooth transition
+                setTimeout(() => {
+                    this.classList.add('loaded');
+                }, 100);
             });
+            
+            // Fallback for images that might already be cached
+            if (img.complete) {
+                setTimeout(() => {
+                    img.classList.add('loaded');
+                }, 100);
+            }
         });
     </script>
 </body>
