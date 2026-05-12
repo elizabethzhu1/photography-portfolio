@@ -1,3 +1,3 @@
-# photography-portfolio
+# Photography Portfolio
 
-My photos throughout the years!
+Official photography portfolio - work in progress. 
