@@ -172,6 +172,50 @@
         .fade-in.loaded {
             opacity: 1;
         }
+        @media (max-width: 767px) {
+            html, body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+            .site-sidebar {
+                padding: 22px 20px 10px;
+            }
+            .site-title {
+                font-size: 2.6rem;
+            }
+            .city-content {
+                width: 100%;
+                margin-left: 0;
+                padding: 22px 0 44px;
+                box-sizing: border-box;
+            }
+            .collage-outer {
+                width: 100%;
+                height: auto;
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+            .city-strip {
+                gap: 14px;
+                align-items: flex-start;
+                padding: 0 20px 36px;
+            }
+            .gallery-photo {
+                width: calc(100vw - 40px);
+                height: auto;
+                max-width: calc(100vw - 40px);
+                max-height: 72vh;
+            }
+            #modal-close {
+                top: 18px !important;
+                right: 22px !important;
+            }
+            #modal-img {
+                max-width: 92vw !important;
+                max-height: 82vh !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-white font-sans min-h-screen">
