@@ -58,35 +58,65 @@
     <main class="px-4 sm:px-8 pb-32 ml-5">
         <div class="collage-outer">
             <div style="display: flex; gap: 32px; overflow-x: auto; padding: 32px 64px 32px 0; scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain;">
-                <img data-src="/public/nyc/nyc.jpg" class="gallery-photo" alt="new york" loading="lazy" />
-                <img data-src="/public/nyc/nyclibrary.jpg" class="gallery-photo" alt="new york library" loading="lazy" />
-                <img data-src="/public/nyc/skater.jpg" class="gallery-photo" style="padding-right: 20px;" alt="new york skater" loading="lazy" />
-                <img data-src="/public/nyc/nycstreet.jpg" class="gallery-photo" alt="new york street" loading="lazy" />
-                <img data-src="/public/nyc/nyctower.jpg" class="gallery-photo" alt="new york tower" loading="lazy" />
+                <img src="/public/nyc/nyc.jpg" class="gallery-photo" width="1200" height="800" alt="new york" loading="eager" fetchpriority="high" />
+                <img src="/public/nyc/nyclibrary.jpg" class="gallery-photo" width="1200" height="800" alt="new york library" loading="eager" fetchpriority="high" />
+                <img src="/public/nyc/skater.jpg" class="gallery-photo" width="1200" height="800" style="padding-right: 20px;" alt="new york skater" loading="eager" fetchpriority="high" />
+                <img src="/public/nyc/nycstreet.jpg" class="gallery-photo" width="1200" height="800" alt="new york street" loading="eager" fetchpriority="high" />
+                <img src="/public/nyc/nyctower.jpg" class="gallery-photo" width="1200" height="800" alt="new york tower" loading="lazy" />
             </div>
         </div>
     </main>
     <script>
         const scrollContainer = document.querySelector('.collage-outer > div');
-        const totalWidth = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        let totalWidth = 0;
+
+        function updateScrollableWidth() {
+            totalWidth = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        }
 
         window.addEventListener('scroll', () => {
             const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
             scrollContainer.scrollLeft = totalWidth * scrollProgress;
         });
+        window.addEventListener('resize', updateScrollableWidth);
 
-        document.querySelectorAll('.collage-outer img').forEach(img => {
-            img.addEventListener('load', function() {
-                setTimeout(() => {
-                    this.classList.add('loaded');
-                }, 100);
-            });
+        document.querySelectorAll('.collage-outer img').forEach((img, index) => {
+            img.classList.add('fade-in');
+            img.decoding = 'async';
+            img.loading = index < 4 ? 'eager' : 'lazy';
+            img.fetchPriority = index < 4 ? 'high' : 'low';
 
-            if (img.complete) {
-                setTimeout(() => {
+            const reveal = () => {
+                updateScrollableWidth();
+                requestAnimationFrame(() => {
                     img.classList.add('loaded');
-                }, 100);
+                });
+            };
+
+            img.addEventListener('load', function() {
+                if (this.decode) {
+                    this.decode().catch(() => {}).finally(reveal);
+                } else {
+                    reveal();
+                }
+            }, { once: true });
+
+            img.addEventListener('error', function() {
+                this.classList.remove('fade-in');
+                updateScrollableWidth();
+            }, { once: true });
+
+            if (img.complete && img.naturalWidth > 0) {
+                if (img.decode) {
+                    img.decode().catch(() => {}).finally(reveal);
+                } else {
+                    reveal();
+                }
             }
+        });
+
+        requestAnimationFrame(() => {
+            updateScrollableWidth();
         });
     </script>
 </body>
