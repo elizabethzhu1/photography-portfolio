@@ -33,6 +33,15 @@
             box-shadow: 0 4px 24px rgba(0,0,0,0.18);
             object-fit: contain;
         }
+        .city-strip {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 24px 48px 24px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            overscroll-behavior-x: contain;
+        }
         .gallery-photo {
             width: auto;
             height: min(57vw, calc(100vh - 240px));
@@ -65,18 +74,18 @@
     <main class="px-4 sm:px-8 pb-32 ml-5">
         <!-- Scattered Collage Gallery of San Francisco Photos with Horizontal Scroll -->
         <div class="collage-outer">
-            <div style="display: flex; gap: 32px; overflow-x: auto; padding: 32px 64px 32px 0; scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain;">
+            <div class="city-strip">
                         <img data-src="/public/sf.jpg" class="gallery-photo" width="1200" height="800" alt="sf1" loading="lazy" />
         <img data-src="/public/sfview.jpg" class="gallery-photo" width="1200" height="800" alt="sf5" loading="lazy" />
         <img data-src="/public/sfhouse.jpg" class="gallery-photo" width="1200" height="800" alt="sf7" loading="lazy" />
-        <img data-src="/public/water.jpg" class="gallery-photo" width="1200" height="800" style="padding-right: 20px;" alt="sf3" loading="lazy" />
+        <img data-src="/public/water.jpg" class="gallery-photo" width="1200" height="800" alt="sf3" loading="lazy" />
         <img data-src="/public/sfstreetview.jpg" class="gallery-photo" width="1200" height="800" alt="sf6" loading="lazy" />
         <img data-src="/public/sfcrispbuilding.jpg" class="gallery-photo" width="1200" height="800" alt="sf4" loading="lazy" />
         <img data-src="/public/sfshore.jpg" class="gallery-photo" width="1200" height="800" alt="sf2" loading="lazy" />
         <img data-src="/public/sfwoman.jpg" class="gallery-photo" width="1200" height="800" alt="sf8" loading="lazy" />
-        <img data-src="/public/sfbuilding.jpg" class="gallery-photo" width="1200" height="800" style="padding-right: 20px;" alt="sf3" loading="lazy" />
-        <img data-src="/public/benchsf.jpg" class="gallery-photo" width="1200" height="800" style="padding-right: 20px;" alt="sf3" loading="lazy" />
-        <img data-src="/public/bench.jpg" class="gallery-photo" width="1200" height="800" style="padding-right: 20px;" alt="sf3" loading="lazy" />
+        <img data-src="/public/sfbuilding.jpg" class="gallery-photo" width="1200" height="800" alt="sf3" loading="lazy" />
+        <img data-src="/public/benchsf.jpg" class="gallery-photo" width="1200" height="800" alt="sf3" loading="lazy" />
+        <img data-src="/public/bench.jpg" class="gallery-photo" width="1200" height="800" alt="sf3" loading="lazy" />
             </div>
             <style>
                 /* Hide scrollbar for all browsers */

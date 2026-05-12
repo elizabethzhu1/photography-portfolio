@@ -26,6 +26,15 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        .city-strip {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 24px 48px 24px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            overscroll-behavior-x: contain;
+        }
         .gallery-photo {
             width: auto;
             height: min(57vw, calc(100vh - 240px));
@@ -57,11 +66,11 @@
     </header>
     <main class="px-4 sm:px-8 pb-32 ml-5">
         <div class="collage-outer">
-            <div style="display: flex; gap: 32px; overflow-x: auto; padding: 32px 64px 32px 0; scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain;">
+            <div class="city-strip">
                 <img src="/public/paris/parisroof.jpg" class="gallery-photo" width="1800" height="1200" alt="paris roof" loading="eager" fetchpriority="high" />
                 <img src="/public/paris/compagnie.jpg" class="gallery-photo" width="1800" height="1200" alt="paris compagnie" loading="eager" fetchpriority="high" />
                 <img src="/public/paris/seine.jpg" class="gallery-photo" width="1800" height="1200" alt="paris seine" loading="eager" fetchpriority="high" />
-                <img src="/public/paris/vaurigard.jpg" class="gallery-photo" width="1800" height="1200" style="padding-right: 20px;" alt="paris vaurigard" loading="eager" fetchpriority="high" />
+                <img src="/public/paris/vaurigard.jpg" class="gallery-photo" width="1800" height="1200" alt="paris vaurigard" loading="eager" fetchpriority="high" />
                 <img src="/public/paris/boats.jpg" class="gallery-photo" width="1800" height="1200" alt="paris boats" loading="lazy" />
                 <img src="/public/paris/canoe.jpg" class="gallery-photo" width="1800" height="1200" alt="paris canoe" loading="lazy" />
                 <img src="/public/paris/maubert.jpg" class="gallery-photo" width="1800" height="1200" alt="paris maubert" loading="lazy" />
