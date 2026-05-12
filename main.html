@@ -8,14 +8,14 @@
     <style>
         .masonry {
             display: flex;
-            gap: 0.5rem;
+            gap: 1rem;
             padding: 0;
         }
         .masonry-column {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 1rem;
         }
         .masonry img {
             width: 100%;
@@ -24,9 +24,8 @@
             display: block;
             background: #f3f3f3;
             opacity: 0;
-            transform: translateY(20px) scale(0.95);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            loading: lazy;
+            transform: translateY(18px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
             will-change: opacity, transform;
         }
         @media (max-width: 639px) {
@@ -36,7 +35,7 @@
         }
         .masonry img.fade-in {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
         .masonry img.loading {
             background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -112,11 +111,11 @@
         <h1 class="text-3xl sm:text-3xl md:text-5xl lg:text-5xl xl:text-5xl font-extrabold tracking-tight text-black">ELIZABETH ZHU</h1>
         <nav class="mt-3 flex flex-wrap gap-2 sm:gap-3 md:gap-4 text-gray-500 text-base sm:text-md md:text-lg lg:text-xl lowercase overflow-x-auto">
             <a href="/index.html" class="hover:text-black whitespace-nowrap">about</a>
-            <!-- <a href="contact.html" class="hover:text-black whitespace-nowrap">contact</a> -->
             <a href="#" class="text-black font-semibold border-b-2 border-black whitespace-nowrap" onclick="resetAndReload(); return false;">photography</a>
-            <!-- <a href="/sf.html" class="hover:text-black whitespace-nowrap">san francisco</a> -->
-            <!-- <a href="/trees.html" class="hover:text-black whitespace-nowrap">trees</a>
-            <a href="/animals.html" class="hover:text-black whitespace-nowrap">animals</a> -->
+            <a href="/accra.html" class="hover:text-black whitespace-nowrap">accra</a>
+            <a href="/paris.html" class="hover:text-black whitespace-nowrap">paris</a>
+            <a href="/new-york.html" class="hover:text-black whitespace-nowrap">new york</a>
+            <a href="/sf.html" class="hover:text-black whitespace-nowrap">san francisco</a>
         </nav>
     </header>
     <!-- Main Gallery Grid -->
@@ -129,7 +128,6 @@
             </div>
         </main>
     </div>
-    </main>
 <script>
 
 // Modal functionality
@@ -145,11 +143,87 @@ function resetAndReload() {
 
 // Photo list
 const photoList = [
-    'sf.jpg', 'tabac.jpg', 'maubert.jpg', 'tree.jpg', 'sfstreetview.jpg', 'parisroof.jpg', 'steps.jpg', 'vaurigard.jpg', 'benchsf.jpg', 
-    'monkey.jpg', 'lightonbuildings.jpg', 'redcar.jpg', 'compagnie.jpg', 'goats1.jpg', 'sfshore.jpg', 'seine.jpg', 'coffeebeans.jpg','beads.jpg','yosemitetrees.jpg',  'boats.jpg', 'reddoor.jpg', 'mirror.jpg', 'ibipuera.jpg', 'painter.jpg', 'mustard.jpg', 'cypress.jpg', 
-    'palacefinearts.jpg', 'treebuilding.jpg', 
-    'building.jpg', 'reyes.jpg', 'nyctower.jpg', 'bike.jpg', 'paris.jpg', 'cntower1.jpg','nyc.jpg', 'yosemite.jpg', 'beach.jpg', 'canoe1.jpg', 'water.jpg', 'sfhouse.jpg', 'whaletree.jpg', 'nycstreet.jpg', 'sfwoman.jpg', 'sfbuilding.jpg', 'goldengate.jpg', 'leaves.jpg',  'sfcrispbuilding.jpg'
+    'sf.jpg', 'redcar.jpg', 'nyc.jpg', 'accra/Zhu_2.jpg', 'yosemitetrees.jpg', 'halfdome.jpg', 'dog.jpg', 'accra/Zhu_1.jpg',
+    'accra/Zhu_4.jpg', 'water.jpg', 'light.jpg', 'accra/Zhu_3.jpg', 'reyes.jpg', 'canoe.jpg',
+    'steps.jpg', 'tree.jpg', 'cntower.jpg', 'vaurigard.jpg', 'morebirds.jpg', 'nyclibrary.jpg', 'geese.jpg', 'shadows.jpg',
+    'parisroof.jpg', 'accra/Zhu_6.jpg', 'swans.jpg', 'coffeebeans.jpg', 'compagnie.jpg', 'sfshore.jpg',
+    'maubert.jpg', 'skater.jpg', 'seine.jpg', 'lightonbuildings.jpg', 'boats.jpg', 'goats.jpg', 'sfstreetview.jpg',
+    'palacefinearts.jpg', 'treebuilding.jpg', 'building.jpg', 'nyctower.jpg', 'sfview.jpg',
+    'bike.jpg', 'beach.jpg', 'sfhouse.jpg', 'whaletree.jpg', 'accra/Zhu_10.jpg',
+    'sfwoman.jpg', 'sfbuilding.jpg', 'goldengate.jpg', 'leaves.jpg',
+    'sfcrispbuilding.jpg', 'nycstreet.jpg', 'bench.jpg', 'monkey.jpg',
+    'cypress2.jpg', 'accra/Zhu_7.jpg', 'birds.jpg', 'accra/Zhu_5.jpg', 'accra/Zhu_9.jpg', 
 ];
+
+const photoDimensions = {
+    'accra/Zhu_1.jpg': [1800, 1200],
+    'accra/Zhu_2.jpg': [1800, 1200],
+    'accra/Zhu_3.jpg': [1800, 1200],
+    'accra/Zhu_4.jpg': [1800, 1200],
+    'accra/Zhu_5.jpg': [1800, 1200],
+    'accra/Zhu_6.jpg': [1800, 1200],
+    'accra/Zhu_7.jpg': [1800, 1200],
+    'accra/Zhu_8.jpg': [1800, 1200],
+    'accra/Zhu_9.jpg': [1800, 1200],
+    'accra/Zhu_10.jpg': [1800, 1200],
+    'beach.jpg': [1200, 800],
+    'bench.jpg': [1200, 800],
+    'benchsf.jpg': [1200, 800],
+    'bike.jpg': [6240, 4160],
+    'birds.jpg': [1200, 800],
+    'boats.jpg': [6240, 4160],
+    'building.jpg': [800, 1200],
+    'canoe.jpg': [6240, 4160],
+    'cntower.jpg': [1200, 800],
+    'coffeebeans.jpg': [1200, 800],
+    'compagnie.jpg': [6240, 4160],
+    'cypress.jpg': [1200, 800],
+    'cypress2.jpg': [1200, 800],
+    'dog.jpg': [800, 1200],
+    'geese.jpg': [6240, 4160],
+    'goats.jpg': [1200, 800],
+    'goldengate.jpg': [1200, 800],
+    'halfdome.jpg': [800, 1200],
+    'ibipuera.jpg': [1200, 800],
+    'leaves.jpg': [1200, 800],
+    'light.jpg': [1200, 800],
+    'lightonbuildings.jpg': [1200, 800],
+    'maubert.jpg': [6240, 4160],
+    'mirror.jpg': [6240, 4160],
+    'monkey.jpg': [800, 1200],
+    'morebirds.jpg': [1200, 800],
+    'nyc.jpg': [1200, 800],
+    'nyclibrary.jpg': [1200, 800],
+    'nycstreet.jpg': [1200, 800],
+    'nyctower.jpg': [1200, 800],
+    'palacefinearts.jpg': [1200, 800],
+    'parisroof.jpg': [6240, 4160],
+    'redcar.jpg': [1200, 800],
+    'reyes.jpg': [959, 1200],
+    'seagull.jpg': [1200, 800],
+    'sealions.jpg': [1200, 800],
+    'seine.jpg': [6240, 4160],
+    'sf.jpg': [1200, 800],
+    'sfbuilding.jpg': [1200, 800],
+    'sfcrispbuilding.jpg': [1200, 800],
+    'sfhouse.jpg': [1200, 800],
+    'sfshore.jpg': [1200, 800],
+    'sfstreetview.jpg': [1200, 800],
+    'sftree.jpg': [1200, 800],
+    'sfview.jpg': [1200, 800],
+    'sfwoman.jpg': [1200, 800],
+    'shadows.jpg': [6240, 4160],
+    'skater.jpg': [1200, 800],
+    'steps.jpg': [1200, 800],
+    'swans.jpg': [1200, 800],
+    'tree.jpg': [1200, 800],
+    'treebuilding.jpg': [1200, 800],
+    'vaurigard.jpg': [6240, 4160],
+    'water.jpg': [1200, 800],
+    'whaletree.jpg': [1200, 800],
+    'yosemite.jpg': [1200, 800],
+    'yosemitetrees.jpg': [1200, 800]
+};
 
 // add light photo in nyc
 
@@ -162,16 +236,40 @@ const columns = [column1, column2, column3];
 // Enhanced image loading with staggered fade-in
 let loadedImages = 0;
 const totalImages = photoList.length;
+const initialRevealCount = 9;
+const columnHeights = columns.map(() => 0);
+
+function getBalancedColumnIndex(width, height) {
+    const shortestHeight = Math.min(...columnHeights);
+    const columnIndex = columnHeights.indexOf(shortestHeight);
+
+    columnHeights[columnIndex] += height / width;
+    return columnIndex;
+}
 
 photoList.forEach((src, i) => {
     const img = document.createElement('img');
-    img.src = `/public/${src}`;
+    const [width, height] = photoDimensions[src] || [1200, 800];
+
     img.alt = src.split('.')[0];
-    img.loading = 'lazy';
+    img.width = width;
+    img.height = height;
+    img.decoding = 'async';
+    img.loading = i < initialRevealCount ? 'eager' : 'lazy';
+    img.fetchPriority = i < initialRevealCount ? 'high' : 'low';
+    img.dataset.index = i;
     img.style.cursor = 'pointer';
     
     // Add loading shimmer effect
     img.classList.add('loading');
+
+    img.addEventListener('load', () => {
+        revealWhenReady(img);
+    }, { once: true });
+
+    img.addEventListener('error', () => {
+        img.classList.remove('loading');
+    }, { once: true });
     
     // Add click handler for modal
     img.addEventListener('click', function() {
@@ -180,56 +278,76 @@ photoList.forEach((src, i) => {
         modalImg.alt = this.alt;
     });
     
-    // Distribute images evenly across 3 columns
-    const totalImages = photoList.length;
-    const imagesPerColumn = Math.ceil(totalImages / 3);
-    const columnIndex = Math.floor(i / imagesPerColumn);
+    // Place each image in the shortest estimated column for even bottoms.
+    const columnIndex = getBalancedColumnIndex(width, height);
     columns[columnIndex].appendChild(img);
+
+    if (i < initialRevealCount) {
+        img.dataset.inView = 'true';
+    }
+
+    img.src = `public/${src}`;
+    revealWhenReady(img);
 });
 
-// Enhanced fade-in with intersection observer and staggered timing
+function revealWhenReady(img) {
+    if (!img.dataset.inView || img.classList.contains('fade-in') || img.dataset.revealing) {
+        return;
+    }
+
+    const reveal = () => {
+        if (img.classList.contains('fade-in') || img.dataset.revealing) {
+            return;
+        }
+
+        img.dataset.revealing = 'true';
+        const delay = (Number(img.dataset.index) % 3) * 70;
+
+        setTimeout(() => {
+            img.classList.remove('loading');
+            requestAnimationFrame(() => {
+                img.classList.add('fade-in');
+                loadedImages++;
+
+                if (loadedImages % 10 === 0 || loadedImages === totalImages) {
+                    console.log(`Loaded ${loadedImages}/${totalImages} images`);
+                }
+            });
+        }, delay);
+    };
+
+    if (img.complete && img.naturalWidth > 0) {
+        if (img.decode) {
+            img.decode().catch(() => {}).finally(reveal);
+        } else {
+            reveal();
+        }
+    } else if (img.complete) {
+        img.classList.remove('loading');
+    }
+}
+
+// Fade images in as they approach the viewport, after they are decoded.
 const imageObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const img = entry.target;
-            
-            // Remove loading shimmer
-            img.classList.remove('loading');
-            
-            // Add staggered delay based on column position
-            const columnIndex = Array.from(columns).indexOf(img.parentElement);
-            const delay = columnIndex * 100; // 100ms delay between columns
-            
-            setTimeout(() => {
-                img.classList.add('fade-in');
-                loadedImages++;
-                
-                // Optional: Log progress
-                if (loadedImages % 10 === 0 || loadedImages === totalImages) {
-                    console.log(`Loaded ${loadedImages}/${totalImages} images`);
-                }
-            }, delay);
-            
+            img.dataset.inView = 'true';
+            revealWhenReady(img);
             observer.unobserve(img);
         }
     });
 }, {
-    threshold: 0.1,
-    rootMargin: '50px'
+    threshold: 0,
+    rootMargin: '300px 0px'
 });
 
 // Observe all images for lazy loading
 document.querySelectorAll('.masonry-column img').forEach(img => {
-    imageObserver.observe(img);
-    
-    // Fallback for images that might already be cached
-    if (img.complete) {
-        img.classList.remove('loading');
-        const columnIndex = Array.from(columns).indexOf(img.parentElement);
-        const delay = columnIndex * 100;
-        setTimeout(() => {
-            img.classList.add('fade-in');
-        }, delay);
+    if (img.dataset.inView) {
+        revealWhenReady(img);
+    } else {
+        imageObserver.observe(img);
     }
 });
 
