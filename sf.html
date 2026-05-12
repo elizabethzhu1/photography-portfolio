@@ -32,7 +32,7 @@
         .site-title {
             margin: 0;
             color: #000;
-            font-size: 3.5rem;
+            font-size: 3rem;
             line-height: 0.95;
             font-weight: 500 !important;
             letter-spacing: 0;
@@ -59,6 +59,15 @@
         .site-nav a.text-black {
             border-bottom-color: #000;
         }
+        .sidebar-meta {
+            margin-top: 1rem;
+            color: #777;
+            font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', Times, serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 1.35;
+            text-transform: lowercase;
+        }
         .site-content {
             margin-left: calc(var(--sidebar-width) + var(--content-gap));
         }
@@ -81,7 +90,7 @@
                 padding: 24px 24px 10px;
             }
             .site-title {
-                font-size: 3.5rem;
+                font-size: 3rem;
                 line-height: 1;
             }
             .site-nav {
@@ -90,6 +99,10 @@
                 flex-wrap: wrap;
                 gap: 0.5rem 1rem;
                 font-size: 0.95rem;
+            }
+            .sidebar-meta {
+                margin-top: 0.75rem;
+                font-size: 0.78rem;
             }
             html, body {
                 height: auto;
@@ -173,6 +186,7 @@
             <a href="/new-york.html" class="hover:text-black whitespace-nowrap">new york</a>
             <a href="/sf.html" class="text-black font-semibold border-b-2 border-black whitespace-nowrap">san francisco</a>
         </nav>
+        <p class="sidebar-meta">058 photos · currently SF · 06 countries</p>
     </header>
     <main class="site-content city-content">
         <!-- Scattered Collage Gallery of San Francisco Photos with Horizontal Scroll -->

@@ -31,7 +31,7 @@
         .site-title {
             margin: 0;
             color: #000;
-            font-size: 3.5rem;
+            font-size: 3rem;
             line-height: 0.95;
             font-weight: 500 !important;
             letter-spacing: 0;
@@ -58,6 +58,15 @@
         .site-nav a.text-black {
             border-bottom-color: #000;
         }
+        .sidebar-meta {
+            margin-top: 1rem;
+            color: #777;
+            font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', Times, serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 1.35;
+            text-transform: lowercase;
+        }
         .site-content {
             margin-left: calc(var(--sidebar-width) + var(--content-gap));
         }
@@ -78,7 +87,7 @@
                 padding: 24px 24px 10px;
             }
             .site-title {
-                font-size: 3.5rem;
+                font-size: 3rem;
                 line-height: 1;
             }
             .site-nav {
@@ -87,6 +96,10 @@
                 flex-wrap: wrap;
                 gap: 0.5rem 1rem;
                 font-size: 0.95rem;
+            }
+            .sidebar-meta {
+                margin-top: 0.75rem;
+                font-size: 0.78rem;
             }
             .site-content {
                 margin-left: 0;
@@ -116,8 +129,12 @@
             background: #f3f3f3;
             opacity: 0;
             transform: translateY(18px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-            will-change: opacity, transform;
+            box-shadow: 0 0 0 0 #000;
+            transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.18s ease;
+            will-change: opacity, transform, box-shadow;
+        }
+        .masonry img:hover {
+            box-shadow: 0 0 0 2px #000;
         }
         @media (max-width: 639px) {
             .masonry {
@@ -208,6 +225,7 @@
             <a href="/new-york.html" class="hover:text-black whitespace-nowrap">new york</a>
             <a href="/sf.html" class="hover:text-black whitespace-nowrap">san francisco</a>
         </nav>
+        <p class="sidebar-meta">058 photos · currently SF · 06 countries</p>
     </header>
     <!-- Main Gallery Grid -->
     <div id="main-gallery" style="opacity:1; pointer-events:auto; transition:opacity 0.8s;">
@@ -349,7 +367,6 @@ photoList.forEach((src, i) => {
     img.loading = i < initialRevealCount ? 'eager' : 'lazy';
     img.fetchPriority = i < initialRevealCount ? 'high' : 'low';
     img.dataset.index = i;
-    img.style.cursor = 'pointer';
     
     // Add loading shimmer effect
     img.classList.add('loading');
