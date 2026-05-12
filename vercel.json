@@ -3,8 +3,5 @@
     "builds": [
       { "src": "*.html", "use": "@vercel/static" },
       { "src": "public/**/*", "use": "@vercel/static" }
-    ],
-    "rewrites": [
-      { "source": "/", "destination": "/main.html" }
     ]
 }
