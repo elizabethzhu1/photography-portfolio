@@ -64,16 +64,16 @@
     <main class="px-4 sm:px-8 pb-32 ml-5">
         <div class="collage-outer">
             <div style="display: flex; gap: 32px; overflow-x: auto; padding: 32px 64px 32px 0; scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain;">
-                <img src="/public/accra/Zhu_1.jpg" class="gallery-photo" alt="accra 1" loading="lazy" />
-                <img src="/public/accra/Zhu_2.jpg" class="gallery-photo" alt="accra 2" loading="lazy" />
-                <img src="/public/accra/Zhu_3.jpg" class="gallery-photo" alt="accra 3" loading="lazy" />
-                <img src="/public/accra/Zhu_4.jpg" class="gallery-photo" alt="accra 4" loading="lazy" />
-                <img src="/public/accra/Zhu_5.jpg" class="gallery-photo" alt="accra 5" loading="lazy" />
-                <img src="/public/accra/Zhu_6.jpg" class="gallery-photo" alt="accra 6" loading="lazy" />
-                <img src="/public/accra/Zhu_7.jpg" class="gallery-photo" alt="accra 7" loading="lazy" />
-                <img src="/public/accra/Zhu_8.jpg" class="gallery-photo" alt="accra 8" loading="lazy" />
-                <img src="/public/accra/Zhu_9.jpg" class="gallery-photo" alt="accra 9" loading="lazy" />
-                <img src="/public/accra/Zhu_10.jpg" class="gallery-photo" style="padding-right: 20px;" alt="accra 10" loading="lazy" />
+                <img data-src="/public/accra/Zhu_1.jpg" class="gallery-photo" alt="accra 1" loading="lazy" />
+                <img data-src="/public/accra/Zhu_2.jpg" class="gallery-photo" alt="accra 2" loading="lazy" />
+                <img data-src="/public/accra/Zhu_3.jpg" class="gallery-photo" alt="accra 3" loading="lazy" />
+                <img data-src="/public/accra/Zhu_4.jpg" class="gallery-photo" alt="accra 4" loading="lazy" />
+                <img data-src="/public/accra/Zhu_5.jpg" class="gallery-photo" alt="accra 5" loading="lazy" />
+                <img data-src="/public/accra/Zhu_6.jpg" class="gallery-photo" alt="accra 6" loading="lazy" />
+                <img data-src="/public/accra/Zhu_7.jpg" class="gallery-photo" alt="accra 7" loading="lazy" />
+                <img data-src="/public/accra/Zhu_8.jpg" class="gallery-photo" alt="accra 8" loading="lazy" />
+                <img data-src="/public/accra/Zhu_9.jpg" class="gallery-photo" alt="accra 9" loading="lazy" />
+                <img data-src="/public/accra/Zhu_10.jpg" class="gallery-photo" style="padding-right: 20px;" alt="accra 10" loading="lazy" />
             </div>
             <style>
                 .collage-outer > div::-webkit-scrollbar { display: none; }
@@ -83,25 +83,57 @@
     </main>
     <script>
         const scrollContainer = document.querySelector('.collage-outer > div');
-        const totalWidth = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        let totalWidth = 0;
+
+        function updateScrollableWidth() {
+            totalWidth = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        }
 
         window.addEventListener('scroll', () => {
             const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
             scrollContainer.scrollLeft = totalWidth * scrollProgress;
         });
+        window.addEventListener('resize', updateScrollableWidth);
 
-        document.querySelectorAll('.collage-outer img').forEach(img => {
-            img.addEventListener('load', function() {
-                setTimeout(() => {
-                    this.classList.add('loaded');
-                }, 100);
-            });
+        document.querySelectorAll('.collage-outer img').forEach((img, index) => {
+            img.classList.add('fade-in');
+            img.decoding = 'async';
+            img.loading = index < 4 ? 'eager' : 'lazy';
+            img.fetchPriority = index < 4 ? 'high' : 'low';
 
-            if (img.complete) {
-                setTimeout(() => {
+            const reveal = () => {
+                updateScrollableWidth();
+                requestAnimationFrame(() => {
                     img.classList.add('loaded');
-                }, 100);
+                });
+            };
+
+            img.addEventListener('load', function() {
+                if (this.decode) {
+                    this.decode().catch(() => {}).finally(reveal);
+                } else {
+                    reveal();
+                }
+            }, { once: true });
+
+            img.addEventListener('error', function() {
+                this.classList.remove('fade-in');
+                updateScrollableWidth();
+            }, { once: true });
+
+            img.src = img.dataset.src;
+
+            if (img.complete && img.naturalWidth > 0) {
+                if (img.decode) {
+                    img.decode().catch(() => {}).finally(reveal);
+                } else {
+                    reveal();
+                }
             }
+        });
+
+        requestAnimationFrame(() => {
+            updateScrollableWidth();
         });
     </script>
 </body>
