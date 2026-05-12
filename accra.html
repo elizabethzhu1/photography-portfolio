@@ -15,7 +15,7 @@
         }
         :root {
             --sidebar-width: 300px;
-            --content-gap: 12px;
+            --content-gap: 4px;
             --city-top-offset: 64px;
             --photo-max-height: 1200px;
         }
@@ -120,8 +120,8 @@
             }
         }
         html, body {
-            height: 100vh;
-            overflow-y: hidden;
+            min-height: 100vh;
+            overflow-y: auto;
         }
         .collage-scroll {
             position: relative;
@@ -130,16 +130,9 @@
             overflow: visible;
         }
         .collage-outer {
-            overflow-x: auto;
-            overflow-y: hidden;
+            overflow: visible;
             width: 100%;
-            height: calc(100vh - 104px);
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            overscroll-behavior-x: contain;
-        }
-        .collage-outer::-webkit-scrollbar {
-            display: none;
+            height: auto;
         }
         .collage-img {
             position: absolute;
@@ -148,29 +141,95 @@
         }
         .city-strip {
             display: flex;
-            gap: 16px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 3.75rem;
+            overflow: visible;
+            padding: 0 72px 80px 0;
+        }
+        .photo-frame {
+            display: grid;
+            grid-template-columns: minmax(180px, 280px) minmax(0, 1fr);
+            gap: clamp(1.25rem, 3vw, 3rem);
             align-items: center;
-            overflow-x: auto;
-            padding: 0 0 24px 0;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            overscroll-behavior-x: contain;
+            justify-content: center;
+            width: 100%;
+            margin: 0;
+        }
+        .photo-frame:nth-child(even) {
+            grid-template-columns: minmax(0, 1fr) minmax(180px, 280px);
+        }
+        .photo-frame:nth-child(odd) .photo-caption {
+            grid-column: 1;
+            grid-row: 1;
+        }
+        .photo-frame:nth-child(odd) .gallery-photo {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        .photo-frame:nth-child(even) .gallery-photo {
+            grid-column: 1;
+            grid-row: 1;
+        }
+        .photo-frame:nth-child(even) .photo-caption {
+            grid-column: 2;
+            grid-row: 1;
         }
         .gallery-photo {
-            width: auto;
-            height: min(calc(100vh - var(--city-top-offset)), var(--photo-max-height));
-            max-height: var(--photo-max-height);
-            max-width: none;
+            width: 100%;
+            height: auto;
+            max-width: 100%;
             object-fit: contain;
-            flex-shrink: 0;
             display: block;
+            cursor: pointer;
+            box-shadow: 0 0 0 0 #000;
+            transition: box-shadow 0.18s ease;
+        }
+        .gallery-photo:hover {
+            box-shadow: 0 0 0 2px #000;
+        }
+        .photo-caption {
+            margin: 0;
+            color: #333;
+            font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', Times, serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.42;
+        }
+        .photo-caption strong {
+            display: block;
+            margin-bottom: 0.45rem;
+            color: #000;
+            font-size: 1.35rem;
+            font-weight: 500;
+            line-height: 1.2;
         }
         .fade-in {
             opacity: 0;
-            transition: opacity 0.8s;
+            transition: opacity 0.8s, box-shadow 0.18s ease;
         }
         .fade-in.loaded {
             opacity: 1;
+        }
+        @media (max-width: 767px) {
+            .city-strip {
+                gap: 2.75rem;
+                padding: 0 24px 56px;
+            }
+            .photo-frame {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                width: 100%;
+                max-width: none;
+                margin: 0 auto;
+            }
+            .photo-frame:nth-child(even) {
+                flex-direction: column;
+            }
+            .photo-caption {
+                font-size: 0.86rem;
+            }
         }
     </style>
 </head>
@@ -187,39 +246,62 @@
         </nav>
         <p class="sidebar-meta">058 photos · currently SF · 06 countries</p>
     </header>
+    <div id="photo-modal" style="display:none; position:fixed; z-index:50; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); align-items:center; justify-content:center;">
+        <span id="modal-close" style="position:absolute; top:32px; right:48px; color:white; font-size:2.5rem; cursor:pointer; z-index:51;">&times;</span>
+        <img id="modal-img" src="" alt="modal photo" style="max-width:90vw; max-height:90vh; box-shadow:0 4px 32px rgba(0,0,0,0.5);" />
+    </div>
     <main class="site-content city-content">
+        <p class="font-serif text-center" style="font-size: 3rem; margin-bottom: 0.1rem">Adventures in Accra</p>
+        <p class="font-serif text-center" style="font-size: 0.9rem; margin-bottom: 2.5rem">On a three week study abroad program in Accra, the capital city of Ghana.</p>
         <div class="collage-outer">
             <div class="city-strip">
-                <img data-src="/public/accra/Zhu_1.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 1" loading="lazy" />
-                <img data-src="/public/accra/Zhu_2.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 2" loading="lazy" />
-                <img data-src="/public/accra/Zhu_3.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 3" loading="lazy" />
-                <img data-src="/public/accra/Zhu_4.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 4" loading="lazy" />
-                <img data-src="/public/accra/Zhu_5.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 5" loading="lazy" />
-                <img data-src="/public/accra/Zhu_6.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 6" loading="lazy" />
-                <img data-src="/public/accra/Zhu_7.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 7" loading="lazy" />
-                <img data-src="/public/accra/Zhu_8.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 8" loading="lazy" />
-                <img data-src="/public/accra/Zhu_9.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 9" loading="lazy" />
-                <img data-src="/public/accra/Zhu_10.jpg" class="gallery-photo" width="1800" height="1200" alt="accra 10" loading="lazy" />
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_1.jpg" class="gallery-photo" width="1800" height="1200" alt="Rainbow of Beads" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>1. Rainbow of Beads</strong>I took this at the Koforidua Bead Market, one of the largest bead markets in Ghana. Beads occupy an important role in Ghanaian culture and history. Historically, beads were used by the indigenous peoples as trade currency. Nowadays, Ghanaian beads remain rich with symbolic value — depending on the color and composition of the beads, they may represent royalty, purity, wealth, fertility, and so forth. At the market, I found beads of all shapes and sizes, from waist beads to bracelets to necklaces, and bought many beads. </figcaption>
+                </figure>
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_2.jpg" class="gallery-photo" width="1800" height="1200" alt="Yin and Yang" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>2. Yin and Yang</strong>As I was strolling through the Cantonments, I saw a family of goats walking by — I saw one black goat, a white infant, and a black and white infant who took on the colors of its companions. Whereas one would not ordinarily find goats on the streets of a typical American city, these friendly creatures are regulars in the urban fabric of Accra. In addition, they play a vital role in Ghanaian culture and life — they are raised to provide a source of income, consumed as food, granted as part of dowries, and present in certain cultural processions. One of my Ghanaian friends in the program has a pet goat named Chloe, which is a perfect name for a goat.</figcaption>
+                </figure>
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_3.jpg" class="gallery-photo" width="1800" height="1200" alt="Carrots in the Sun" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>3. Carrots in the Sun</strong>As I strolled through the streets of Accra, I caught a glimpse of the sunlight perfectly hitting a bowl with a single carrot, nestled in between baskets and a pile of other carrots. I was drawn to the complementary colors and the interplay between light and dark in taking this shot. On the streets of Accra, it is common to see fresh produce laying on tabletops either unattended to or piled up in a pyramid by a street vendor who is determined to sell you some vegetables. </figcaption>
+                </figure>
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_4.jpg" class="gallery-photo" width="1800" height="1200" alt="Cocoa Beans" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>4. Cocoa Beans</strong>This was taken at the Tetteh Quarshie cocoa farm, where the first cocoa tree was planted in Ghana! In 1876, Tetteh Quarshie smuggled six cocoa pods from modern-day Equatorial Guinea into Ghana. Ghana is the second largest exporter of cocoa in the world behind Côte d'Ivoire. Here, cocoa beans are extracted from the pods and wrapped within plantain leaves to ferment. Afterwards, the beans are dried and sent to a processing facility, typically to places in Europe and North America, where they are roasted, ground, and refined to produce chocolate.</figcaption>
+                </figure>
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_5.jpg" class="gallery-photo" width="1800" height="1200" alt="Rooster on the Block" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>5. Rooster on the Block</strong>Roosters in Accra are a bit like pigeons in New York — they command the streets like locals by strutting amongst traffic, guiding their chicks, and loudly declaring their presence early in the morning. Most Ghanaian families do not cage their chickens, instead choosing to let them roam around freely on the streets. Roosters also hold cultural and religious significance, at times even inspiring the design of fantasy coffins used to bury the dead. In fact, the Convention People's Party founded by Kwame Nkrumah bears a rooster as its logo, as a symbol for awakening.</figcaption>
+                </figure>
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_6.jpg" class="gallery-photo" width="1800" height="1200" alt="Gye Nyame" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>6. Gye Nyame</strong>I took this at the Kakum National Park during our trip to Cape Coast. The bags were being sold by a vendor right by the entrance to the forest. Leather craftsmanship is a rich part of Ghanaian culture and each bag is carefully handcrafted. The black symbol on the bag in the top left corner is a well-known Adinkra symbol originating from the Akan people. It means "Except God" and represents the divine authority of God. This symbol is found all across Accra, not only on leather bags but on the back of trotros, wooden keychains, in paintings, and in shop names.</figcaption>
+                </figure>
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_7.jpg" class="gallery-photo" width="1800" height="1200" alt="Straw Hats, Slippers, Drums" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>7. Straw Hats, Slippers, Drums</strong>This was one of the vendor tables at the Koforidua Bead Market. Pictured are Ghanaian straw hats of three different varieties, some slippers, and some Ghanaian wooden drums. The hourglass shape is a standard feature of Ghanaian drums, along with the string surrounding the body of the drum. Although the table features three different cultural items, they share similar materials - cow skin is used to make both the drums and the slippers shown.</figcaption>
+                </figure>
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_8.jpg" class="gallery-photo" width="1800" height="1200" alt="Old Car" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>8. Old Car</strong>A staple of the streets of Accra are worn, vintage cars. As I walked past this particular car in the Cantonments neighborhood, I was struck by how the light illuminated the car, creating a shadow on the pavement below, as well as how the scratches on the car contrasted to the sleek, colorful green and blue trailers in the background. In particular, I have noticed that Accra is home to a lot of blue - not only does blue make an appearance in trailers like the one depicted, but it is the color of street signs, water bottle caps, shawarma trucks, ATMs, plastic chairs, and countless other items native to Accra.</figcaption>
+                </figure>
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_9.jpg" class="gallery-photo" width="1800" height="1200" alt="Africa Unite" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>9. Africa Unites</strong>This photo was taken on Oxford Street after I had an unexpected conversation in French with a street vendor from Burkina Faso. Often, on Oxford Street, economic exchanges inevitably turn into socio-cultural exchanges. The vendor initially spread out the various plaques from his store on the ground to give us a better view of his products and to convince us to make a purchase. The plaques center around concepts of Panafricanism, religion, unity, maternity, and perseverance. The colors of the traditional Ghanaian fabric juxtapose with the stark black and white text and borders of the plaques.</figcaption>
+                </figure>
+                <figure class="photo-frame">
+                    <img data-src="/public/accra/Zhu_10.jpg" class="gallery-photo" width="1800" height="1200" alt="Cat and Cloth" loading="lazy" />
+                    <figcaption class="photo-caption"><strong>10. Cat and Cloth</strong>I was strolling down Oxford Street when I noticed this cat peeping underneath some colorful fabrics at a street vendor's shop. Fabrics like these are staples of Ghanaian culture — it is impossible to walk around the neighborhood without running into at least a dozen vendors selling dyed fabrics characterized by vibrant and colorful patterns. Before taking this shot, I was heckled by two competing vendors. In my three weeks here, I've realized that Oxford Street is home to unabashedly determined vendors who will do whatever it takes to sell their goods, even if you are in the middle of buying clothes from a competing vendor. This particular shop sold pants, dresses, tablecloths, and other clothing made out of similar fabrics to the ones depicted.</figcaption>
+                </figure>
             </div>
-            <style>
-                .collage-outer > div::-webkit-scrollbar { display: none; }
-                .collage-outer > div { -ms-overflow-style: none; scrollbar-width: none; }
-            </style>
         </div>
     </main>
     <script>
-        const scrollContainer = document.querySelector('.collage-outer > div');
-        let totalWidth = 0;
-
-        function updateScrollableWidth() {
-            totalWidth = scrollContainer.scrollWidth - scrollContainer.clientWidth;
-        }
-
-        window.addEventListener('scroll', () => {
-            const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-            scrollContainer.scrollLeft = totalWidth * scrollProgress;
-        });
-        window.addEventListener('resize', updateScrollableWidth);
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const closeBtn = document.getElementById('modal-close');
 
         document.querySelectorAll('.collage-outer img').forEach((img, index) => {
             img.classList.add('fade-in');
@@ -228,7 +310,6 @@
             img.fetchPriority = index < 4 ? 'high' : 'low';
 
             const reveal = () => {
-                updateScrollableWidth();
                 requestAnimationFrame(() => {
                     img.classList.add('loaded');
                 });
@@ -242,9 +323,14 @@
                 }
             }, { once: true });
 
+            img.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                modalImg.src = this.currentSrc || this.src || this.dataset.src;
+                modalImg.alt = this.alt;
+            });
+
             img.addEventListener('error', function() {
                 this.classList.remove('fade-in');
-                updateScrollableWidth();
             }, { once: true });
 
             img.src = img.dataset.src;
@@ -258,8 +344,23 @@
             }
         });
 
-        requestAnimationFrame(() => {
-            updateScrollableWidth();
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            modalImg.src = '';
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                modalImg.src = '';
+            }
+        });
+
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                modal.style.display = 'none';
+                modalImg.src = '';
+            }
         });
     </script>
 </body>
